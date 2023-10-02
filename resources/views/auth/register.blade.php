@@ -151,7 +151,7 @@
 
                             <hr class="mx-n3">
 
-                            <div class="row align-items-center py-3">
+                            {{-- <div class="row align-items-center py-3">
                                 <div class="col-md-3 ps-5">
 
                                     <h6 class="mb-0">Avatar</h6>
@@ -162,9 +162,9 @@
                                     <input name="avatar" type="file" required autocomplete="avatar"
                                         class="form-control form-control-lg" />
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <hr class="mx-n3">
+                            {{-- <hr class="mx-n3"> --}}
 
                             <div class="px-5 py-4">
                                 <button type="submit" class="btn btn-primary btn-lg">Register</button>
