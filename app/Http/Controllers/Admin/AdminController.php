@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -14,7 +15,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('layouts.admin.dashboard');
+        $user = Auth::user();
+        return view('layouts.admin.dashboard', compact('user'));
     }
 
     /**
