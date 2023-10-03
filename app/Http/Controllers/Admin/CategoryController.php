@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Categories;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -134,12 +135,14 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Categories::findOrFail($id);
-        // $path = '/uploads/category/' . $category->image;
-        // if (File::exists($path)) {
-        //     File::delete($path);
-        // }
+        $path =  $category->image;
+        if (File::exists($path)) {
+            File::delete($path);
+        }
+        // dd($path);
+        // Storage::disk('public')->delete($path);
+        // Categories::where('id', $id)->delete();
         $category->delete();
-        // session()->flash('message', 'Category Deleted Successfully');
         return redirect('/admin/category')->with('message', 'Category Delete Successfully');
     }
 }
