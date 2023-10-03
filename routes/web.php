@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,15 @@ Route::prefix('/admin/')->group(function () {
         Route::get('category/edit/{id}', 'edit');
         Route::put('category/{id}', 'update');
         Route::delete('category/delete/{id}', 'destroy');
+    });
+
+    Route::controller(BrandController::class)->group(function () {
+        Route::get('brand', 'index')->name('brand.index');
+        Route::get('brand/create', 'create');
+        Route::post('brand', 'store');
+        Route::get('brand/edit/{id}', 'edit');
+        Route::put('brand/{id}', 'update');
+        Route::delete('brand/delete/{id}', 'destroy');
     });
 });
 
