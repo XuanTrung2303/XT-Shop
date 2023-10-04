@@ -8,30 +8,37 @@
             @endif
             <div class="card-body">
                 <h4 class="card-title">
-                    All Categories
+                    All Sliders
                     <a class="card-description left-4 text-decoration-none float-end"
-                        href="{{ asset('/admin/brand/create') }}">
-                        Add Category</a>
+                        href="{{ asset('/admin/slider/create') }}">
+                        Add Slider</a>
                 </h4>
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <td>ID</td>
-                            <th> Name Brand</th>
+                            <th> Image </th>
+                            <th> Title</th>
+                            <th class="py-1"> Description </th>
                             <th> Status </th>
                             <th> Action </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($brands as $brand)
+                        @foreach ($sliders as $slider)
                             <tr>
-                                <td>{{ $brand->id }}</td>
-                                <td> {{ $brand->name }} </td>
-                                <td>{{ $brand->is_active == '1' ? 'Hidden' : 'Visible' }}</td>
+                                <td>{{ $slider->id }}</td>
                                 <td>
-                                    <a href="{{ url('admin/brand/edit/' . $brand->id) }}"
+                                    <img src="{{ asset("$slider->image") }}" alt="image"
+                                        style="width:100px;height:100px" />
+                                </td>
+                                <td> {{ $slider->title }} </td>
+                                <td>{{ $slider->description }}</td>
+                                <td>{{ $slider->is_active == '1' ? 'Hidden' : 'Visible' }}</td>
+                                <td>
+                                    <a href="{{ url('admin/slider/edit/' . $slider->id) }}"
                                         class="btn btn-success text-white"><i class="mdi mdi-eyedropper-variant"></i></a>
-                                    <a href="#" onClick="deleteBrand()" data-bs-toggle="modal"
+                                    <a href="#" onClick="deleteSlider()" data-bs-toggle="modal"
                                         data-bs-target="#deleteModal" class="btn btn-danger text-white"><i
                                             class="mdi mdi-close"></i></a>
                                 </td>
@@ -41,11 +48,11 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Brand Delete</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Slider Delete</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="{{ url('admin/brand/delete/' . $brand->id) }}" method="POST">
+                                        <form action="{{ url('admin/slider/delete/' . $slider->id) }}" method="POST">
                                             @method('DELETE')
                                             @csrf
                                             <div class="modal-body">
@@ -65,7 +72,7 @@
                     </tbody>
                 </table>
                 <div>
-                    {{ $brands->links() }}
+                    {{ $sliders->links() }}
                 </div>
             </div>
         </div>

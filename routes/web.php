@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\SliderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
@@ -33,6 +34,7 @@ Route::prefix('/admin/')->group(function () {
         Route::get('dashboard', 'index')->name('dashboard');
     });
 
+    // Category Route
     Route::controller(CategoryController::class)->group(function () {
         Route::get('category', 'index')->name('category.index');
         Route::get('category/create', 'create');
@@ -42,6 +44,7 @@ Route::prefix('/admin/')->group(function () {
         Route::delete('category/delete/{id}', 'destroy');
     });
 
+    // Brand Route
     Route::controller(BrandController::class)->group(function () {
         Route::get('brand', 'index')->name('brand.index');
         Route::get('brand/create', 'create');
@@ -49,6 +52,16 @@ Route::prefix('/admin/')->group(function () {
         Route::get('brand/edit/{id}', 'edit');
         Route::put('brand/{id}', 'update');
         Route::delete('brand/delete/{id}', 'destroy');
+    });
+
+    // Slider Route
+    Route::controller(SliderController::class)->group(function () {
+        Route::get('slider', 'index')->name('slider.index');
+        Route::get('slider/create', 'create');
+        Route::post('slider', 'store');
+        Route::get('slider/edit/{id}', 'edit');
+        Route::put('slider/{id}', 'update');
+        Route::delete('slider/delete/{id}', 'destroy');
     });
 });
 

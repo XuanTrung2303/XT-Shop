@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Categories;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use App\Models\Sliders;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
-use App\Http\Requests\CategoryFormRequest;
+use App\Http\Requests\SliderFormRequest;
 
-class CategoryController extends Controller
+class SliderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +17,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Categories::orderBy('id', 'DESC')->paginate(10);
-        return view("admin.categories.index", compact('categories'));
+        $sliders = Sliders::orderBy('id', 'DESC')->paginate(10);
+
+        return view('admin.sliders.index', compact('sliders'));
     }
 
     /**
@@ -30,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view("admin.categories.create");
+        return view('admin.sliders.create');
     }
 
     /**
@@ -39,28 +38,29 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryFormRequest $request)
+    public function store(SliderFormRequest $request)
     {
         $validatedData = $request->validated();
 
-        $category = new Categories;
-        $category->name = $validatedData['name'];
-        $category->slug = Str::slug($validatedData['slug']);
+        $slider = new Sliders;
 
-        $uploadPath  = 'uploads/category/';
+        $slider->title = $validatedData['title'];
+        $slider->description = $request->description;
+
+        $uploadPath  = 'uploads/slider/';
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
             $filename = time() . '.' . $ext;
 
-            $file->move('uploads/category/', $filename);
-            $category->image = $uploadPath . $filename;
+            $file->move('uploads/slider/', $filename);
+            $slider->image = $uploadPath . $filename;
         }
 
-        $category->is_active = $request->is_active == true ? '1' : '0';
-        $category->save();
+        $slider->is_active = $request->is_active == true ? '1' : '0';
 
-        return redirect('/admin/category')->with('message', 'Category Added Successfully');
+        $slider->save();
+        return redirect('/admin/slider')->with('success', '');
     }
 
     /**
@@ -82,8 +82,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Categories::find($id);
-        return view('admin.categories.edit', compact('category'));
+        $slider = Sliders::find($id);
+        return view('admin.sliders.edit', compact('slider'));
     }
 
     /**
@@ -93,21 +93,19 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryFormRequest $request, $category)
+    public function update(SliderFormRequest $request, $id)
     {
-
         $validatedData = $request->validated();
 
-        $category = Categories::findOrFail($category);
+        $slider = Sliders::findOrFail($id);
 
-        $category->name = $validatedData['name'];
-        $category->slug = Str::slug($validatedData['slug']);
-
+        $slider->title = $validatedData['title'];
+        $slider->description = $request->description;
 
         if ($request->hasFile('image')) {
 
-            $uploadPath  = 'uploads/category/';
-            $path = '/uploads/category/' . $category->image;
+            $uploadPath  = 'uploads/slider/';
+            $path = 'uploads/slider/' . $slider->image;
             if (File::exists($path)) {
                 File::delete($path);
             }
@@ -116,14 +114,15 @@ class CategoryController extends Controller
             $ext = $file->getClientOriginalExtension();
             $filename = time() . '.' . $ext;
 
-            $file->move('uploads/category/', $filename);
-            $category->image = $uploadPath . $filename;
+            $file->move('uploads/slider/', $filename);
+            $slider->image = $uploadPath . $filename;
         }
 
-        $category->is_active = $request->is_active == true ? '1' : '0';
-        $category->update();
+        $slider->is_active = $request->is_active == true ? '1' : '0';
 
-        return redirect('/admin/category')->with('message', 'Category Updated Successfully');
+        $slider->update();
+
+        return redirect('/admin/slider')->with('message', 'Slider Updated Successfully');
     }
 
     /**
@@ -134,12 +133,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Categories::findOrFail($id);
-        $path =  $category->image;
+        $slider = Sliders::findOrFail($id);
+        $path = $slider->image;
         if (File::exists($path)) {
             File::delete($path);
         }
-        $category->delete();
-        return redirect('/admin/category')->with('message', 'Category Delete Successfully');
+        $slider->delete();
+        return redirect('/admin/slider')->with('message', 'Slider Deleted Successfully');
     }
 }
