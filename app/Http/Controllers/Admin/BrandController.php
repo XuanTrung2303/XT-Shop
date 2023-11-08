@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BrandFormRequest;
-use App\Models\Brands;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
@@ -16,7 +16,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brands::orderBy("id", "DESC")->paginate(10);
+        $brands = Brand::orderBy("id", "DESC")->paginate(10);
         return view("admin.brands.index", compact("brands"));
     }
 
@@ -40,7 +40,7 @@ class BrandController extends Controller
     {
         $validatedData = $request->validated();
 
-        $brand = new Brands;
+        $brand = new Brand;
         $brand->name = $validatedData["name"];
         $brand->slug = $validatedData["slug"];
         $brand->is_active = $request->is_active == true ? '1' : '0';
@@ -69,7 +69,7 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        $brand = Brands::find($id);
+        $brand = Brand::find($id);
 
         return view('admin.brands.edit', compact('brand'));
     }
@@ -85,7 +85,7 @@ class BrandController extends Controller
     {
         $validatedData = $request->validated();
 
-        $brand = Brands::findOrFail($brand);
+        $brand = Brand::findOrFail($brand);
         $brand->name = $validatedData["name"];
         $brand->slug = $validatedData["slug"];
         $brand->is_active = $request->is_active == true ? '1' : '0';
@@ -103,7 +103,7 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        $brand = Brands::findOrFail($id);
+        $brand = Brand::findOrFail($id);
         $brand->delete();
         return redirect('/admin/brand')->with('message', 'Brand Deleted Successfully');
     }

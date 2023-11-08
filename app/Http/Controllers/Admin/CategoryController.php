@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Categories;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\CategoryFormRequest;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -19,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Categories::orderBy('id', 'DESC')->paginate(10);
+        $categories = Category::orderBy('id', 'DESC')->paginate(10);
         return view("admin.categories.index", compact('categories'));
     }
 
@@ -43,7 +41,7 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validated();
 
-        $category = new Categories;
+        $category = new Category;
         $category->name = $validatedData['name'];
         $category->slug = Str::slug($validatedData['slug']);
 
@@ -82,7 +80,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Categories::find($id);
+        $category = Category::find($id);
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -98,7 +96,7 @@ class CategoryController extends Controller
 
         $validatedData = $request->validated();
 
-        $category = Categories::findOrFail($category);
+        $category = Category::findOrFail($category);
 
         $category->name = $validatedData['name'];
         $category->slug = Str::slug($validatedData['slug']);
@@ -134,7 +132,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Categories::findOrFail($id);
+        $category = Category::findOrFail($id);
         $path =  $category->image;
         if (File::exists($path)) {
             File::delete($path);

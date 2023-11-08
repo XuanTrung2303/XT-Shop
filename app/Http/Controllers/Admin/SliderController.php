@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Sliders;
-use Illuminate\Http\Request;
+use App\Models\Slider;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\SliderFormRequest;
@@ -17,7 +16,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Sliders::orderBy('id', 'DESC')->paginate(10);
+        $sliders = Slider::orderBy('id', 'DESC')->paginate(10);
 
         return view('admin.sliders.index', compact('sliders'));
     }
@@ -42,7 +41,7 @@ class SliderController extends Controller
     {
         $validatedData = $request->validated();
 
-        $slider = new Sliders;
+        $slider = new Slider;
 
         $slider->title = $validatedData['title'];
         $slider->description = $request->description;
@@ -82,7 +81,7 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        $slider = Sliders::find($id);
+        $slider = Slider::find($id);
         return view('admin.sliders.edit', compact('slider'));
     }
 
@@ -97,7 +96,7 @@ class SliderController extends Controller
     {
         $validatedData = $request->validated();
 
-        $slider = Sliders::findOrFail($id);
+        $slider = Slider::findOrFail($id);
 
         $slider->title = $validatedData['title'];
         $slider->description = $request->description;
@@ -133,7 +132,7 @@ class SliderController extends Controller
      */
     public function destroy($id)
     {
-        $slider = Sliders::findOrFail($id);
+        $slider = Slider::findOrFail($id);
         $path = $slider->image;
         if (File::exists($path)) {
             File::delete($path);

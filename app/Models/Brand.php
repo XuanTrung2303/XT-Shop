@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sliders extends Model
+class Brand extends Model
 {
     use HasFactory;
 
-    protected $table = 'sliders';
+    protected $table = 'brands';
 
     protected $fillable = [
-        'title',
-        'description',
-        'image',
+        'name',
+        'slug',
         'is_active',
     ];
 }
