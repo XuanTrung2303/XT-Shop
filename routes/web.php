@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\SliderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,16 @@ Route::prefix('/admin/')->group(function () {
         Route::get('slider/edit/{id}', 'edit');
         Route::put('slider/{id}', 'update');
         Route::delete('slider/delete/{id}', 'destroy');
+    });
+
+    // Coupon Route
+    Route::controller(CouponController::class)->group(function () {
+        Route::get('coupon', 'index')->name('coupon.index');
+        Route::get('coupon/create', 'create');
+        Route::post('coupon', 'store');
+        Route::get('coupon/edit/{id}', 'edit');
+        Route::put('coupon/{id}', 'update');
+        Route::delete('coupon/delete/{id}', 'destroy');
     });
 });
 

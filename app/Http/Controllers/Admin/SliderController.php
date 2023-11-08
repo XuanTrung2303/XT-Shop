@@ -16,7 +16,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::orderBy('id', 'DESC')->paginate(10);
+        $sliders = Slider::paginate(10);
 
         return view('admin.sliders.index', compact('sliders'));
     }
@@ -59,7 +59,7 @@ class SliderController extends Controller
         $slider->is_active = $request->is_active == true ? '1' : '0';
 
         $slider->save();
-        return redirect('/admin/slider')->with('success', '');
+        return redirect('/admin/slider')->with('message', 'Slider Added Successfully');
     }
 
     /**

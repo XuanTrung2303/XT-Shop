@@ -8,30 +8,38 @@
             @endif
             <div class="card-body">
                 <h4 class="card-title">
-                    All Categories
+                    All Coupons
                     <a class="card-description left-4 text-decoration-none float-end"
-                        href="{{ asset('/admin/brand/create') }}">
-                        Add Category</a>
+                        href="{{ asset('/admin/coupon/create') }}">
+                        Add Coupon</a>
                 </h4>
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <td>ID</td>
-                            <th> Name Brand</th>
-                            <th> Status </th>
+                            <th> Coupon Code</th>
+                            <th> Type </th>
+                            <th> Value </th>
+                            <th> Min Cart Amount </th>
+                            <th> From </th>
+                            <th> Till </th>
                             <th> Action </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($brands as $brand)
+                        @foreach ($coupons as $coupon)
                             <tr>
-                                <td>{{ $brands->perPage() * ($brands->currentPage() - 1) + $loop->iteration }}</td>
-                                <td> {{ $brand->name }} </td>
-                                <td>{{ $brand->is_active == '1' ? 'Hidden' : 'Visible' }}</td>
+                                <td>{{ $coupons->perPage() * ($coupons->currentPage() - 1) + $loop->iteration }}</td>
+                                <td> {{ $coupon->code }} </td>
+                                <td> {{ $coupon->type }} </td>
+                                <td> {{ $coupon->value }} </td>
+                                <td> {{ $coupon->min_cart_amount ? $coupon->min_cart_amount : 'N/A' }} VND </td>
+                                <td>{{ $coupon->from_valid->format('d-m-Y h:i A') }}</td>
+                                <td>{{ $coupon->till_valid ? $coupon->till_valid->format('d-m-Y h:i A') : '' }}</td>
                                 <td>
-                                    <a href="{{ url('admin/brand/edit/' . $brand->id) }}"
+                                    <a href="{{ url('admin/coupon/edit/' . $coupon->id) }}"
                                         class="btn btn-success text-white"><i class="mdi mdi-eyedropper-variant"></i></a>
-                                    <a href="#" onClick="deleteBrand()" data-bs-toggle="modal"
+                                    <a href="#" onClick="deleteCoupon({{ $coupon->id }})" data-bs-toggle="modal"
                                         data-bs-target="#deleteModal" class="btn btn-danger text-white"><i
                                             class="mdi mdi-close"></i></a>
                                 </td>
@@ -41,16 +49,19 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Brand Delete</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Coupon Delete</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="{{ url('admin/brand/delete/' . $brand->id) }}" method="POST">
+                                        <form action="{{ url('admin/coupon/delete/' . $coupon->id) }}" method="POST">
                                             @method('DELETE')
                                             @csrf
                                             <div class="modal-body">
                                                 <h6>Are you sure you want to delete this data?</h6>
                                             </div>
+                                            {{-- @php
+                                                dd($coupon->id);
+                                            @endphp --}}
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary text-white"
                                                     data-bs-dismiss="modal">Close</button>
@@ -65,7 +76,7 @@
                     </tbody>
                 </table>
                 <div>
-                    {{ $brands->links() }}
+                    {{ $coupons->links() }}
                 </div>
             </div>
         </div>

@@ -27,7 +27,7 @@
                     <tbody>
                         @foreach ($sliders as $slider)
                             <tr>
-                                <td>{{ $slider->id }}</td>
+                                <td>{{ $sliders->perPage() * ($sliders->currentPage() - 1) + $loop->iteration }}</td>
                                 <td>
                                     <img src="{{ asset("$slider->image") }}" alt="image"
                                         style="width:100px;height:100px" />
@@ -72,7 +72,7 @@
                     </tbody>
                 </table>
                 <div>
-                    {{ $sliders->links() }}
+                    {!! $sliders->links() !!}
                 </div>
             </div>
         </div>

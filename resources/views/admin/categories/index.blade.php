@@ -26,7 +26,7 @@
                     <tbody>
                         @foreach ($categories as $category)
                             <tr>
-                                <td>{{ $category->id }}</td>
+                                <td>{{ $categories->perPage() * ($categories->currentPage() - 1) + $loop->iteration }}</td>
                                 <td>
                                     <img src="{{ asset("$category->image") }}" alt="image"
                                         style="width:60px;height:60px" />
